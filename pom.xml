@@ -50,7 +50,6 @@
       <provider>MC</provider>
       <environment>Sandbox</environment>
       <target>Cloudhub-US-East-2</target>
-		<java>17</java>
       <muleVersion>4.9.6</muleVersion>
       <username>${user}</username>
       <password>${pass}</password>
