@@ -1,0 +1,11 @@
+
+# snowflake configuration details
+snowflake:
+  account: "UPAGJVV-ENC13021"
+  user: "AYYAPPAM339"
+  authenticator: "externalbrowser"
+  role: "ACCOUNTADMIN"
+  warehouse: "COMPUTE_WH"
+  database: "ONBOARDING"
+  schema: "PUBLIC"
+  password: "WelcometoMulesoft123"

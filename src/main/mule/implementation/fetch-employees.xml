@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:snowflake="http://www.mulesoft.org/schema/mule/snowflake" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/snowflake http://www.mulesoft.org/schema/mule/snowflake/current/mule-snowflake.xsd">
+	<sub-flow name="fetch-employeesSub_Flow" doc:id="e3862084-d602-4f37-ae8d-ec9923f91f1c" >
+		<logger level="INFO" doc:name="Logger" doc:id="3607398d-e15e-4b5f-8001-3bd28da04dfc" />
+		<snowflake:select doc:name="Select" doc:id="549db273-4946-4fdd-8ef5-fcaa077b8ce3" config-ref="Snowflake_Config">
+			<snowflake:sql ><![CDATA[select empId,EMPNAME,DEPARTMENT,JOBTITLE,STARTDATE,TRAININGCOMPLETED,EQUIPMENTPROVIDED,MANAGERNAME from employees]]></snowflake:sql>
+		</snowflake:select>
+		<ee:transform doc:name="Transform Message" doc:id="dfef058b-c1d3-4990-a064-290be6ab36c3" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="0a744f37-36e1-4cd5-b740-c3826f9f2339" />
+	</sub-flow>
+</mule>
