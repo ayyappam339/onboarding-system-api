@@ -1,0 +1,5 @@
+%dw 2.0
+
+type auto_e3862084_d602_4f37_ae8d_ec9923f91f1c_Input_Payload = Array<{|  employeeId: String,   name: String,   department: String,   jobTitle: String|}> {"mediaType": "application/json",
+"encoding": "UTF-8"}
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:snowflake="http://www.mulesoft.org/schema/mule/snowflake" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/snowflake http://www.mulesoft.org/schema/mule/snowflake/current/mule-snowflake.xsd">
+	<sub-flow name="Insert-employeeSub_Flow" doc:id="043c127e-50c3-4583-bc64-7e0ea8a5ec3c" >
+		<logger level="INFO" doc:name="Start Logger" doc:id="913bfb18-75c0-42ab-b7ca-3f49a6fd0fe1" message='#["before inserting into data"]'/>
+		<ee:transform doc:name="Transform Message" doc:id="b3544d23-f28a-461e-a680-e59e891fe2a4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<snowflake:insert doc:name="Insert" doc:id="2fb4f926-e060-4f1c-8b37-8d1fc857e4dd" config-ref="Snowflake_Config">
+			<snowflake:sql ><![CDATA[INSERT INTO EMPLOYEES(EMPNAME,DEPARTMENT,JOBTITLE,STARTDATE,TRAININGCOMPLETED,EQUIPMENTPROVIDED,MANAGERNAME) VALUES(:empName,:department,:jobTitle, :startDate, :training,:eqip, :managerName
+    )]]></snowflake:sql>
+			<snowflake:input-parameters ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+    empName: payload.name,
+    department: payload.department,
+    jobTitle : payload.jobTitle,
+    startDate: payload.startDate,
+    training: payload.trainingCompleted,
+    eqip : payload.equipmentProvided,
+    managerName: payload.managerName
+    
+}]]]></snowflake:input-parameters>
+		</snowflake:insert>
+		<ee:transform doc:name="Transform Message" doc:id="923c35c2-973f-49c6-8a9a-a5b77e5a68f6" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger1" doc:id="0f178132-c354-4f62-9250-d8e087d2d507" message='#["after inserting into data"]'/>
+	</sub-flow>
+</mule>
